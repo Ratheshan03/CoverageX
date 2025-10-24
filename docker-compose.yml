@@ -2,8 +2,6 @@
 # Single command to start entire CoverageX To-Do application
 # Usage: docker-compose up --build
 
-version: '3.8'
-
 services:
   # MySQL Database Service
   db:
@@ -14,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: todoapp
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
