@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #fff7ed;
+  --color-primary-100: #ffedd5;
+  --color-primary-200: #fed7aa;
+  --color-primary-300: #fdba74;
+  --color-primary-400: #fb923c;
+  --color-primary-500: #f97316;
+  --color-primary-600: #ea580c;
+  --color-primary-700: #c2410c;
+  --color-primary-800: #9a3412;
+  --color-primary-900: #7c2d12;
+}
+
+@layer base {
+  /* Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  /* Custom Scrollbar */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(107, 114, 128, 0.5);
+    border-radius: 0.5rem;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.7);
+  }
+
+  /* Custom Animations */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-in {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  .fade-in {
+    animation-name: fade-in;
+  }
+
+  .slide-in-up {
+    animation-name: slide-in-up;
+  }
+
+  .duration-200 {
+    animation-duration: 200ms;
+  }
+
+  /* Sonner Toast Custom Styles */
+  [data-sonner-toaster] {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  [data-sonner-toast] {
+    background: rgba(17, 24, 39, 0.95) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  [data-sonner-toast][data-type="success"] {
+    border-color: rgba(34, 197, 94, 0.3) !important;
+  }
+
+  [data-sonner-toast][data-type="error"] {
+    border-color: rgba(239, 68, 68, 0.3) !important;
+  }
+
+  [data-sonner-toast][data-type="warning"] {
+    border-color: rgba(251, 146, 60, 0.3) !important;
+  }
+
+  [data-sonner-toast][data-type="info"] {
+    border-color: rgba(59, 130, 246, 0.3) !important;
+  }
+
+  [data-sonner-toast][data-type="loading"] {
+    border-color: rgba(249, 115, 22, 0.3) !important;
+  }
+
+  [data-title] {
+    color: white !important;
+    font-weight: 500;
+  }
+
+  [data-description] {
+    color: rgba(209, 213, 219, 0.9) !important;
+  }
+
+  [data-button] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  [data-button]:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  [data-close-button] {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+  }
+
+  [data-close-button]:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  /* Success icon color */
+  [data-sonner-toast][data-type="success"] [data-icon] {
+    color: rgb(34, 197, 94) !important;
+  }
+
+  /* Error icon color */
+  [data-sonner-toast][data-type="error"] [data-icon] {
+    color: rgb(239, 68, 68) !important;
+  }
+
+  /* Warning icon color */
+  [data-sonner-toast][data-type="warning"] [data-icon] {
+    color: rgb(251, 146, 60) !important;
+  }
+
+  /* Info icon color */
+  [data-sonner-toast][data-type="info"] [data-icon] {
+    color: rgb(59, 130, 246) !important;
+  }
+
+  /* Loading spinner color */
+  [data-sonner-toast][data-type="loading"] [data-icon] {
+    color: rgb(249, 115, 22) !important;
+  }
+}
