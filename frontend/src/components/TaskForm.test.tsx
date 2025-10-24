@@ -3,12 +3,21 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import TaskForm from './TaskForm';
 import taskApi from '../services/api';
+import { toast } from 'sonner';
 
-// Mock the API service
 vi.mock('../services/api', () => ({
   default: {
     createTask: vi.fn(),
   },
+}));
+
+vi.mock('sonner', () => ({
+  toast: {
+    error: vi.fn(),
+    success: vi.fn(),
+    loading: vi.fn(() => 'toast-id'),
+  },
+  Toaster: vi.fn(() => null),
 }));
 
 describe('TaskForm', () => {
@@ -33,7 +42,7 @@ describe('TaskForm', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Title is required')).toBeInTheDocument();
+      expect(toast.error).toHaveBeenCalledWith('Title is required');
     });
 
     expect(taskApi.createTask).not.toHaveBeenCalled();
@@ -50,7 +59,7 @@ describe('TaskForm', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Description is required')).toBeInTheDocument();
+      expect(toast.error).toHaveBeenCalledWith('Description is required');
     });
 
     expect(taskApi.createTask).not.toHaveBeenCalled();
@@ -67,7 +76,7 @@ describe('TaskForm', () => {
       updated_at: '2025-10-24T10:00:00.000Z',
     };
 
-    (taskApi.createTask as any).mockResolvedValue(mockTask);
+    vi.mocked(taskApi.createTask).mockResolvedValue(mockTask);
 
     render(<TaskForm onTaskCreated={mockOnTaskCreated} />);
 
@@ -100,7 +109,7 @@ describe('TaskForm', () => {
       updated_at: '2025-10-24T10:00:00.000Z',
     };
 
-    (taskApi.createTask as any).mockResolvedValue(mockTask);
+    vi.mocked(taskApi.createTask).mockResolvedValue(mockTask);
 
     render(<TaskForm onTaskCreated={mockOnTaskCreated} />);
 
@@ -120,7 +129,7 @@ describe('TaskForm', () => {
 
   it('shows error message when API call fails', async () => {
     const user = userEvent.setup();
-    (taskApi.createTask as any).mockRejectedValue({
+    vi.mocked(taskApi.createTask).mockRejectedValue({
       response: {
         data: {
           error: 'Server error',
@@ -147,7 +156,7 @@ describe('TaskForm', () => {
 
   it('disables form while submitting', async () => {
     const user = userEvent.setup();
-    (taskApi.createTask as any).mockImplementation(
+    vi.mocked(taskApi.createTask).mockImplementation(
       () => new Promise((resolve) => setTimeout(resolve, 100))
     );
 

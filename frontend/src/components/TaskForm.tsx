@@ -7,10 +7,6 @@ interface TaskFormProps {
   onTaskCreated: () => void;
 }
 
-/**
- * TaskForm Component
- * Form for creating new tasks with validation - Modern glassmorphism design
- */
 const TaskForm = ({ onTaskCreated }: TaskFormProps) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -51,21 +47,20 @@ const TaskForm = ({ onTaskCreated }: TaskFormProps) => {
         description: description.trim(),
       });
 
-      // Clear form on success
       setTitle('');
       setDescription('');
       setError(null);
 
-      // Show success toast
       toast.success('Task created successfully!', {
         id: loadingToast,
         description: `"${newTask.title}" has been added to your list`,
       });
 
-      // Notify parent to refresh task list
+
       onTaskCreated();
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.error || 'Failed to create task';
+    } catch (err) {
+      const error = err as { response?: { data?: { error?: string } } };
+      const errorMessage = error.response?.data?.error || 'Failed to create task';
       toast.error('Failed to create task', {
         id: loadingToast,
         description: errorMessage,

@@ -8,16 +8,11 @@ interface TaskListProps {
   refreshTrigger: number;
 }
 
-/**
- * TaskList Component
- * Displays list of incomplete tasks with modern glassmorphism design
- */
 const TaskList = ({ refreshTrigger }: TaskListProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch tasks from API
   const fetchTasks = async () => {
     setLoading(true);
     setError(null);
@@ -25,8 +20,9 @@ const TaskList = ({ refreshTrigger }: TaskListProps) => {
     try {
       const data = await taskApi.getTasks();
       setTasks(data);
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.error || 'Failed to load tasks';
+    } catch (err) {
+      const error = err as { response?: { data?: { error?: string } } };
+      const errorMessage = error.response?.data?.error || 'Failed to load tasks';
       setError(errorMessage);
       toast.error('Failed to load tasks', {
         description: errorMessage,
@@ -36,34 +32,31 @@ const TaskList = ({ refreshTrigger }: TaskListProps) => {
     }
   };
 
-  // Fetch tasks on mount and when refreshTrigger changes
   useEffect(() => {
     fetchTasks();
   }, [refreshTrigger]);
 
-  // Handle task completion
   const handleComplete = async (taskId: number) => {
-    // Find the task before removing it
     const task = tasks.find((t) => t.id === taskId);
 
     try {
-      // Optimistically remove task from list
       setTasks((prevTasks) => prevTasks.filter((t) => t.id !== taskId));
 
       await taskApi.completeTask(taskId);
 
-      // Show success toast
       toast.success('Task completed!', {
         description: task ? `"${task.title}" marked as done` : 'Task has been completed',
       });
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.error || 'Failed to complete task';
+
+      fetchTasks();
+    } catch (err) {
+      const error = err as { response?: { data?: { error?: string } } };
+      const errorMessage = error.response?.data?.error || 'Failed to complete task';
 
       toast.error('Failed to complete task', {
         description: errorMessage,
       });
 
-      // Refresh tasks to restore state on error
       fetchTasks();
     }
   };

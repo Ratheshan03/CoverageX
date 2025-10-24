@@ -37,7 +37,7 @@ describe('TaskList', () => {
   });
 
   it('shows loading state initially', () => {
-    (taskApi.getTasks as any).mockImplementation(
+    vi.mocked(taskApi.getTasks).mockImplementation(
       () => new Promise(() => {}) // Never resolves
     );
 
@@ -48,7 +48,7 @@ describe('TaskList', () => {
   });
 
   it('renders list of tasks after loading', async () => {
-    (taskApi.getTasks as any).mockResolvedValue(mockTasks);
+    vi.mocked(taskApi.getTasks).mockResolvedValue(mockTasks);
 
     render(<TaskList refreshTrigger={0} />);
 
@@ -59,18 +59,18 @@ describe('TaskList', () => {
   });
 
   it('shows empty state when no tasks', async () => {
-    (taskApi.getTasks as any).mockResolvedValue([]);
+    vi.mocked(taskApi.getTasks).mockResolvedValue([]);
 
     render(<TaskList refreshTrigger={0} />);
 
     await waitFor(() => {
       expect(screen.getByTestId('empty-state')).toBeInTheDocument();
-      expect(screen.getByText('No tasks yet. Add your first task!')).toBeInTheDocument();
+      expect(screen.getByText(/no tasks yet/i)).toBeInTheDocument();
     });
   });
 
   it('shows error state when API call fails', async () => {
-    (taskApi.getTasks as any).mockRejectedValue({
+    vi.mocked(taskApi.getTasks).mockRejectedValue({
       response: {
         data: {
           error: 'Failed to load tasks',
@@ -87,8 +87,8 @@ describe('TaskList', () => {
   });
 
   it('removes task from list when completed', async () => {
-    (taskApi.getTasks as any).mockResolvedValue(mockTasks);
-    (taskApi.completeTask as any).mockResolvedValue({
+    vi.mocked(taskApi.getTasks).mockResolvedValue(mockTasks);
+    vi.mocked(taskApi.completeTask).mockResolvedValue({
       ...mockTasks[0],
       completed: true,
     });
@@ -110,7 +110,7 @@ describe('TaskList', () => {
   });
 
   it('refreshes tasks when refreshTrigger changes', async () => {
-    (taskApi.getTasks as any).mockResolvedValue(mockTasks);
+    vi.mocked(taskApi.getTasks).mockResolvedValue(mockTasks);
 
     const { rerender } = render(<TaskList refreshTrigger={0} />);
 
@@ -126,8 +126,8 @@ describe('TaskList', () => {
   });
 
   it('handles complete task API error gracefully', async () => {
-    (taskApi.getTasks as any).mockResolvedValue(mockTasks);
-    (taskApi.completeTask as any).mockRejectedValue({
+    vi.mocked(taskApi.getTasks).mockResolvedValue(mockTasks);
+    vi.mocked(taskApi.completeTask).mockRejectedValue({
       response: {
         data: {
           error: 'Failed to complete task',

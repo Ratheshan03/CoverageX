@@ -3,21 +3,16 @@ import { Toaster } from 'sonner';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 
-/**
- * Main App Component
- * Modern UI with glassmorphism effects and clean design
- */
 function App() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Callback to refresh task list when new task is created
   const handleTaskCreated = () => {
     setRefreshTrigger((prev) => prev + 1);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
-      {/* Toast Notifications */}
+      {/* Toast notifications */}
       <Toaster
         position="top-right"
         richColors

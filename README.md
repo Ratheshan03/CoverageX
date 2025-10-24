@@ -1,4 +1,4 @@
-# TaskFlow - Modern To-Do Application
+# TaskFlow - To-Do Application
 
 A beautifully designed, full-stack to-do application built with React, TypeScript, Express, and MySQL. Features a modern glassmorphism UI, comprehensive testing, and production-ready Docker deployment.
 
@@ -52,7 +52,7 @@ docker-compose up --build
 3. Access the application
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000/api
-- Database: localhost:3306
+- Database: localhost:3307
 
 That's it! The entire stack (Database, Backend, Frontend) is now running.
 
@@ -124,9 +124,10 @@ Routes → Controller → Service → Model → Database
 ### Frontend
 - React 19.1.1 - UI framework
 - TypeScript 5.9.3 - Type safety
-- Tailwind CSS 3.4.0 - Styling
+- Tailwind CSS 4.1.12 - Styling
 - Vite 7.1.7 - Build tool
 - Axios 1.12.2 - HTTP client
+- Sonner 2.0.7 - Toast notifications
 
 ### Backend
 - Node.js 20.x - Runtime
@@ -352,12 +353,6 @@ docker-compose logs db
 docker-compose restart db
 ```
 
-### Frontend shows blank page
-- Check browser console (F12) for errors
-- Verify backend is running: `curl http://localhost:5000/health`
-- Hard refresh browser: Ctrl+Shift+R
-- Check if Tailwind is properly configured
-
 ### Tests failing
 ```bash
 # Clear and reinstall dependencies
@@ -372,7 +367,8 @@ docker-compose build --no-cache
 
 ## Additional Documentation
 
-- [Docker Setup Guide](./DOCKER-GUIDE.md)
+- [START-HERE.md](./START-HERE.md) - Quick start troubleshooting guide
+- [TESTING-GUIDE.md](./TESTING-GUIDE.md) - Detailed testing instructions
 - [E2E Testing Guide](./e2e-tests/README.md)
 - [PRD](./PRD.md)
 
@@ -394,7 +390,7 @@ docker-compose build --no-cache
 
 ## Author
 
-Built with ❤️ as part of CoverageX Full Stack Engineer Assessment
+Built as a part of CoverageX Full Stack Engineer Assessment
 
 ---
 

@@ -79,3 +79,7 @@ data/
 .cache/
 .parcel-cache/
 .eslintcache
+
+
+# pdf, docs
+*.pdf

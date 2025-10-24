@@ -4,35 +4,23 @@ import dotenv from 'dotenv';
 import taskRoutes from './routes/task.routes';
 import { testConnection } from './config/database';
 
-// Load environment variables
 dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
 
-/**
- * Middleware Configuration
- */
-app.use(cors()); // Enable CORS for frontend
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-/**
- * Request Logging Middleware (simple)
- */
 app.use((req: Request, res: Response, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
 
-/**
- * Routes
- */
 app.use('/api/tasks', taskRoutes);
 
-/**
- * Health Check Endpoint
- */
+// Health check
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'ok',
